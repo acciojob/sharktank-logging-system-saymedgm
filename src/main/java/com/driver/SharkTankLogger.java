@@ -16,20 +16,28 @@ public class SharkTankLogger {
     }
 
     public void log(LogLevel level, String message) {
-    	//your code goes here
+        String formattedMessage = getFormattedMessage(level, message);
+        writeToConsole(formattedMessage);
+        writeToFile(formattedMessage);
     }
 
     private String getFormattedMessage(LogLevel level, String message) {
-    	//your code goes here
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timestamp = dateFormat.format(new Date());
         return String.format("[%s] %s - %s", level.toString(), timestamp, message);
     }
 
     private void writeToConsole(String message) {
-    	//your code goes here
+        if (writeToConsole) {
+            System.out.println(message);
+        }
     }
 
     private void writeToFile(String message) {
-    	//your code goes here
+        try (PrintWriter writer = new PrintWriter(new FileWriter(logFileName, true))) {
+            writer.println(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
-
